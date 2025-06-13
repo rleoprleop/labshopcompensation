@@ -23,6 +23,8 @@
             <Number label="Amount" v-model="value.amount" :editMode="editMode"/>
             <String label="Status" v-model="value.status" :editMode="editMode"/>
             <String label="Address" v-model="value.address" :editMode="editMode"/>
+
+            <Inventory v-model="inventory"></Inventory>
         </v-card-text>
 
         <v-card-actions>
@@ -99,10 +101,18 @@
                 timeout: 5000,
                 text: ''
             },
+            inventory: {
+                stock: null
+            }
         }),
+        async created(){
+            var result = await axios.get('/inventories/' + this.value.productId);
+            this.inventory = result.data;
+        },
         computed:{
         },
         methods: {
+            
             selectFile(){
                 if(this.editMode == false) {
                     return false;
